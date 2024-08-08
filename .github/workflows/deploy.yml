@@ -1,0 +1,34 @@
+name: Deploy website on production server
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set debug logging
+      run: |
+        echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
+        echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
+    
+    - name: Debug environment variables
+      env:
+        DO_HOST_IP: ${{ secrets.DO_SERVER_IP }}
+        DO_HOST_USERNAME: ${{ secrets.DO_SERVER_USER }}
+        DO_HOST_PASSWORD: ${{ secrets.DO_SERVER_PASSWORD }}
+        ENV_PROD: ${{ secrets.ENV_PROD }}
+      run: |
+        echo "DO_HOST_IP=${{ secrets.DO_HOST_IP }}"
+        echo "DO_HOST_USERNAME=${{ secrets.DO_HOST_USERNAME }}"
+        echo "ENV_PROD is set"
+        
+
+        EOF
